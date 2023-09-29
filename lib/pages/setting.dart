@@ -13,9 +13,6 @@ class _SettingsPageState extends State<SettingsPage> {
   TextEditingController currentPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
 
-  String developerName = "Nama Anda";
-  String developerNim = "NIM Anda";
-
   final DbHelper dbHelper = DbHelper();
 
   @override
@@ -27,7 +24,7 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: Text("Pengaturan"),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -55,16 +52,29 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             SizedBox(height: 40),
             Text(
-              "Developer",
+              "About Me",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             CircleAvatar(
-              // backgroundImage: AssetImage("assets/your_image.png"), // Gantilah dengan path gambar Anda
-              radius: 50,
+              radius: 50.0, // Atur ukuran radius sesuai keinginan
+              backgroundColor: Colors.blue, // Atur warna latar belakang
+              child: Container(
+                width: 100.0, // Atur ukuran gambar
+                height: 100.0, // Atur ukuran gambar
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle, // Ubah ke bentuk lingkaran
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(
+                        'assets/images/fotoku.jpg'), // Ganti dengan path gambar Anda
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 10),
-            Text(developerName),
-            Text(developerNim),
+            Text("Aplikasi ini dibuat oleh :"),
+            Text("Rheina Yulia Wati"),
+            Text("2141764136"),
           ],
         ),
       ),
