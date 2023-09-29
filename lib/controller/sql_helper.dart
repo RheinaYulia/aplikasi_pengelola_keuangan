@@ -3,6 +3,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:aplikasi_pengelola_keuangan/model/usermodel.dart';
+import 'package:aplikasi_pengelola_keuangan/model/finance.dart';
+import 'package:aplikasi_pengelola_keuangan/konstan/konstan_keuangan.dart';
 
 class DbHelper {
   static DbHelper? _dbHelper;
@@ -98,7 +100,92 @@ class DbHelper {
     }
   }
 
+  //* Finance
+  //create databases finance
+  Future<int> insertFinance(Finance object) async {
+    Database db = await this.database;
+    int count = await db.insert('finance', object.toMap());
+    return count;
+  }
 
+  Future<int> insertIncome(
+      String date, String amount, String description) async {
+    Database db = await this.database;
+
+    // Create a Finance object with the income data
+    Finance incomeData = Finance(date, amount, description, incomeType);
+    print(incomeData.toMap());
+    int count = await db.insert('finance', incomeData.toMap());
+    return count;
+  }
+
+  Future<int> insertExpense(
+      String date, String amount, String description) async {
+    Database db = await this.database;
+
+    // Create a Finance object with the expense data
+    Finance expenseData = Finance(date, amount, description, expenseType);
+
+    int count = await db.insert('finance', expenseData.toMap());
+    return count;
+  }
+
+// get total from income
+  Future<int> getTotalIncome() async {
+    Database db = await this.database;
+    List<Map<String, dynamic>> result = await db.rawQuery(
+        'SELECT SUM(amount) as total FROM finance where type = "income"');
+
+    if (result.isNotEmpty && result[0]['total'] != null) {
+      int total = result[0]['total'];
+      return total;
+    } else {
+      // Handle the case where there is no data or 'total' is null
+      return 0; // You can return a default value or an appropriate error value
+    }
+  }
+
+  // get total from expense
+  Future<int> getTotalExpense() async {
+    Database db = await this.database;
+    List<Map<String, dynamic>> result = await db.rawQuery(
+      'SELECT SUM(amount) as total FROM finance where type = "expense"',
+    );
+
+    if (result.isNotEmpty && result[0]['total'] != null) {
+      int total = result[0]['total'];
+      return total;
+    } else {
+      // Handle the case where there is no data or 'total' is null
+      return 0; // You can return a default value or an appropriate error value
+    }
+  }
+
+  // get data from finance
+  Future<List<Finance>> getFinance() async {
+    Database db = await this.database;
+    List<Map<String, dynamic>> result = await db.query('finance');
+
+    List<Finance> finance = [];
+    for (var i = 0; i < result.length; i++) {
+      finance.add(Finance.fromMap(result[i]));
+    }
+    return finance;
+  }
+
+  // create data finance
+  Future<int> insertDataFinance(Finance object) async {
+    Database db = await this.database;
+    int count = await db.insert('finance', object.toMap());
+    return count;
+  }
+
+  // delete data finance
+  Future<int> deleteDataFinance(int id) async {
+    Database db = await this.database;
+    int count = await db.delete('finance', where: 'id=?', whereArgs: [id]);
+    return count;
+  }
 
   factory DbHelper() {
     if (_dbHelper == null) {

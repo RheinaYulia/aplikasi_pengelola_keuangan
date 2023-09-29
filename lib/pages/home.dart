@@ -1,3 +1,7 @@
+import 'package:aplikasi_pengelola_keuangan/pages/cashflow.dart';
+import 'package:aplikasi_pengelola_keuangan/pages/income.dart';
+import 'package:aplikasi_pengelola_keuangan/pages/setting.dart';
+import 'package:aplikasi_pengelola_keuangan/pages/spend.dart';
 import 'package:flutter/material.dart';
 import 'package:aplikasi_pengelola_keuangan/controller/sql_helper.dart';
 
@@ -14,7 +18,33 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int totalIncome = 0;
+  int totalExpense = 0;
+  @override
+  void initState() {
+    super.initState();
+    _fetchTotalIncomeAndExpense();
+  }
 
+  Future<void> _fetchTotalIncomeAndExpense() async {
+    // Initialize your DBHelper
+    final dbHelper = DbHelper();
+
+    // Fetch the total income and total expense
+    final income = await dbHelper.getTotalIncome();
+    final expense = await dbHelper.getTotalExpense();
+
+    setState(() {
+      totalIncome = income;
+      totalExpense = expense;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _fetchTotalIncomeAndExpense(); // Refresh data when navigating back
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +84,7 @@ class _HomeState extends State<Home> {
               ),
               Center(
                 child: Text(
-                  'Pemasukan : \Rp ',
+                  'Pemasukan : \Rp $totalIncome',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -87,8 +117,8 @@ class _HomeState extends State<Home> {
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: () {
-                            // Navigator.push(context,
-                            //     MaterialPageRoute(builder: (_) => EntryForm()));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) => EntryForm()));
                           },
                           child: Column(
                             children: [
@@ -129,8 +159,8 @@ class _HomeState extends State<Home> {
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: () {
-                            // Navigator.push(context,
-                            //     MaterialPageRoute(builder: (_) => Spend()));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) => Spend()));
                           },
                           child: Column(
                             children: [
@@ -181,8 +211,8 @@ class _HomeState extends State<Home> {
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: () {
-                            // Navigator.push(context,
-                            //     MaterialPageRoute(builder: (_) => CashFlow()));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) => CashFlow()));
                           },
                           child: Column(
                             children: [
@@ -225,10 +255,10 @@ class _HomeState extends State<Home> {
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (_) => SettingsPage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => SettingsPage()));
                           },
                           child: Column(
                             children: [

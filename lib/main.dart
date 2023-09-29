@@ -1,6 +1,10 @@
 import 'package:aplikasi_pengelola_keuangan/konstan/route_constant.dart';
+import 'package:aplikasi_pengelola_keuangan/pages/spend.dart';
+import 'package:aplikasi_pengelola_keuangan/pages/income.dart';
+import 'package:aplikasi_pengelola_keuangan/pages/cashflow.dart';
 import 'package:aplikasi_pengelola_keuangan/pages/home.dart';
 import 'package:aplikasi_pengelola_keuangan/login.dart';
+import 'package:aplikasi_pengelola_keuangan/pages/setting.dart';
 import 'package:aplikasi_pengelola_keuangan/controller/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +20,10 @@ void main() {
 final routes = {
   loginRoute: (BuildContext context) => LoginPage(),
   homeRoute: (BuildContext context) => Home(),
+  settingsRoute: (BuildContext context) => SettingsPage(),
+  addExpenseRoute: (BuildContext context) => Spend(),
+  addIncomeRoute: (BuildContext context) => EntryForm(),
+  detailCashFlowRoute: (BuildContext context) => CashFlow(),
 };
 
 class MyApp extends StatelessWidget {
