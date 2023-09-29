@@ -40,8 +40,7 @@ class DbHelper {
   )''');
 
     // insert to table user
-    await db
-        .insert("user", {'username': 'rena@mail.co', 'password': 'password'});
+    await db.insert("user", {'username': 'rheina27', 'password': '1234'});
   }
 
   //* User
@@ -57,7 +56,8 @@ class DbHelper {
     Database db = await this.database;
 
     List<Map<String, dynamic>> result = await db.query('user',
-        where: 'username = ? AND password = ?', whereArgs: [username, password]);
+        where: 'username = ? AND password = ?',
+        whereArgs: [username, password]);
     if (result.isNotEmpty) {
       return true;
     } else {
@@ -70,7 +70,8 @@ class DbHelper {
     Database db = await this.database;
 
     int result = await db.rawUpdate(
-        'UPDATE user SET password = ? WHERE username = ?', [password, username]);
+        'UPDATE user SET password = ? WHERE username = ?',
+        [password, username]);
     return result;
   }
 

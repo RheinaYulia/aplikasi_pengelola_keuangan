@@ -133,7 +133,7 @@ class _HomeState extends State<Home> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Image.asset(
-                                  "images/income.png",
+                                  "assets/images/income.png",
                                 ),
                               ),
                             ],
