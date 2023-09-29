@@ -1,168 +1,89 @@
-import 'package:aplikasi_pengelola_keuangan/pages/income.dart';
-import 'package:aplikasi_pengelola_keuangan/pages/spend.dart';
+import 'package:aplikasi_pengelola_keuangan/konstan/konstan_keuangan.dart';
+import 'package:aplikasi_pengelola_keuangan/controller/sql_helper.dart';
+import 'package:aplikasi_pengelola_keuangan/model/finance.dart';
 import 'package:flutter/material.dart';
 
 class CashFlow extends StatefulWidget {
   @override
-  State<CashFlow> createState() => _CashFlowState();
+  _CashFlowState createState() => _CashFlowState();
 }
 
 class _CashFlowState extends State<CashFlow> {
+  List<Finance> cashFlowData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCashFlowData();
+  }
+
+  Future<void> _fetchCashFlowData() async {
+    DbHelper dbHelper = DbHelper();
+    await dbHelper.initDb(); // Initialize the database
+    List<Finance> data = await dbHelper.getFinance();
+
+    setState(() {
+      cashFlowData = data;
+    });
+  }
+
+  Future<void> _deleteItem(int index) async {
+    DbHelper dbHelper = DbHelper();
+    await dbHelper.initDb(); // Initialize the database
+
+    // Delete the item from the database
+    await dbHelper.deleteDataFinance(cashFlowData[index].id!);
+
+    // Remove the item from the list
+    setState(() {
+      cashFlowData.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cash Flow'),
+        title: Text("Detail Cash Flow"),
+        
       ),
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  'Detail Cash FLow',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+      body: ListView.builder(
+        itemCount: cashFlowData.length,
+        itemBuilder: (context, index) {
+          final item = cashFlowData[index];
+          final isIncome = item.type == incomeType;
+
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+            child: ListTile(
+              leading: Icon(
+                isIncome ? Icons.arrow_forward_ios : Icons.arrow_back_ios,
+                color: isIncome ? Colors.green : Colors.red,
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  )),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '[ + ] Rp. 250.000 ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                top: 5,
-                                bottom: 5,
-                              ),
-                              child: Text(
-                                'Dapat bayaran panitia sertifikasi',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                top: 5,
-                                bottom: 5,
-                              ),
-                              child: Text(
-                                '25-12-2022',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black38,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.arrow_back,
-                          color: Colors.green,
-                          size: 50,
-                        ),
-                      ],
-                    ),
+              title: Text(item.date!),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${isIncome ? 'Pemasukan' : 'Pengeluaran'}: ${item.amount}",
+                    style: TextStyle(fontSize: 16),
                   ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  )),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '[ - ] Rp. 250.000 ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                top: 5,
-                                bottom: 5,
-                              ),
-                              child: Text(
-                                'Dapat bayaran panitia sertifikasi',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                top: 5,
-                                bottom: 5,
-                              ),
-                              child: Text(
-                                '25-12-2022',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black38,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Colors.red,
-                          size: 50,
-                        ),
-                      ],
-                    ),
+                  Text(
+                    "Deskripsi: ${item.description}",
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ],
+              trailing: GestureDetector(
+                onTap: () async {
+                  _deleteItem(index);
+                  
+                },
+                child: Icon(Icons.delete, color: Colors.red),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
