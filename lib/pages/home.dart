@@ -71,7 +71,7 @@ class _HomeState extends State<Home> {
               ),
               Center(
                 child: Text(
-                  'Pengeluaran',
+                  'Pengeluaran \Rp $totalExpense',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -102,6 +102,9 @@ class _HomeState extends State<Home> {
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black, width: 1),
                   ),
+                  child: Image.asset(
+                    "assets/images/chart.png",
+                  ),
                 ),
               ),
               SizedBox(
@@ -123,8 +126,8 @@ class _HomeState extends State<Home> {
                           child: Column(
                             children: [
                               Container(
-                                width: 150,
-                                height: 150,
+                                width: 120,
+                                height: 120,
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: Colors.black,
@@ -133,7 +136,7 @@ class _HomeState extends State<Home> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Image.asset(
-                                  "assets/images/income.png",
+                                  "assets/images/income2.png",
                                 ),
                               ),
                             ],
@@ -165,8 +168,8 @@ class _HomeState extends State<Home> {
                           child: Column(
                             children: [
                               Container(
-                                width: 150,
-                                height: 150,
+                                width: 120,
+                                height: 120,
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: Colors.black,
@@ -174,14 +177,9 @@ class _HomeState extends State<Home> {
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: Icon(
-                                  Icons.disabled_by_default_outlined,
-                                  size: 100,
-                                  color: Colors.blue,
+                                child: Image.asset(
+                                  "assets/images/pengeluaran.png",
                                 ),
-                                // child: Image.asset(
-                                //   "images/spend.jpg",
-                                // ),
                               ),
                             ],
                           ),
@@ -217,24 +215,19 @@ class _HomeState extends State<Home> {
                           child: Column(
                             children: [
                               Container(
-                                  width: 150,
-                                  height: 150,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
+                                width: 120,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1,
                                   ),
-                                  child: Icon(
-                                    Icons.show_chart,
-                                    size: 100,
-                                    color: Colors.blue,
-                                  )
-                                  // child: Image.asset(
-                                  //   "images/cashflow.jpg",
-                                  // ),
-                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Image.asset(
+                                  "assets/images/cashflow.png",
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -263,24 +256,19 @@ class _HomeState extends State<Home> {
                           child: Column(
                             children: [
                               Container(
-                                  width: 150,
-                                  height: 150,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
+                                width: 120,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1,
                                   ),
-                                  child: Icon(
-                                    Icons.settings,
-                                    size: 100,
-                                    color: Colors.blue,
-                                  )
-                                  // child: Image.asset(
-                                  //   "images/setting.jpg",
-                                  // ),
-                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Image.asset(
+                                  "assets/images/setting.png",
+                                ),
+                              ),
                             ],
                           ),
                         ),
